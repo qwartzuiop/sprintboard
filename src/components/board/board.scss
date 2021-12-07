@@ -1,0 +1,141 @@
+.board{
+    display: flex;
+    flex-grow: 1;
+
+    .col{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        flex-grow: 1;
+        flex-basis: 0;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+        margin-top: 20px;
+        margin-bottom: 20px;
+
+        &:first-of-type{
+            margin-left: max(20px, env(safe-area-inset-left));
+            margin-right: 15px;
+        };
+        &:last-of-type{
+            margin-left: 15px;
+            margin-right: max(20px, env(safe-area-inset-right));
+        };
+
+        &.col--tasks>.tasks, &.col--progress>.progress, &.col--completed>.completed{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+            border-radius: 10px 10px 0 0;
+        };
+
+        &.col--tasks{
+            .task-button{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 40px;
+                border-radius: 10px;
+
+                &:hover{
+                    cursor: pointer;
+                };
+
+                &:focus{
+                    outline-width: 2px;
+                    outline-color: rgba(58, 108, 217, 0.5);
+                    outline-style: solid;
+                };
+                &:focus:not(:focus-visible){
+                    outline: none;
+                };
+                &:focus-visible{
+                    outline-width: 2px;
+                    outline-color: rgba(58, 108, 217, 0.5);
+                    outline-style: solid;
+                };
+            };
+        };
+
+        .col__content{
+            flex-grow: 1;
+            padding: 15px 10px;
+            border-radius: 0 0 10px 10px;
+        };
+    };
+};
+
+body{
+    &.light{
+        .board{
+            .col{
+                background-color: rgba(255, 255, 255, 0.75);
+
+                &.col--tasks>.tasks, &.col--progress>.progress, &.col--completed>.completed{
+                    background-color: rgba(255, 255, 255, 0.75);
+                    border: 1px solid rgba(0, 0, 0, 0.15);
+                };
+
+                &.col--tasks{
+                    .task-button{
+                        border: none;
+                        background-color: rgba(255, 255, 255, 0.75);
+                        border: 1px solid rgba(0, 0, 0, 0.15);
+                        transition: border-color .3s ease;
+                        font-weight: 500;
+
+                        &:hover{
+                            border-color:rgba(0, 0, 0, 0.30);
+                        };
+
+                        &:focus-visible{
+                            background-color: rgba(0,0,0,0.03);
+                        };
+                    };
+                };
+
+                .col__content{
+                    border: 1px solid rgba(0, 0, 0, 0.15);
+                    border-top: none;
+                };
+            };
+        };
+    };
+
+    &.dark{
+        .board{
+            .col{
+                background-color: rgba(58, 58, 60, 0.15);
+
+                &.col--tasks>.tasks, &.col--progress>.progress, &.col--completed>.completed{
+                    background-color: rgba(44, 44, 46, 1);
+                    border: 1px solid transparent;
+                    border-bottom-color: rgba(84, 84, 88, 0.65);
+                };
+
+                &.col--tasks{
+                    .task-button{
+                        border: none;
+                        background-color: rgba(44, 44, 46, 1);
+                        transition: background-color .3s ease;
+                        font-weight: 400;
+
+                        &:hover{
+                            background-color: rgba(255, 255, 255, 0.1);
+                        };
+
+                        &:focus-visible{
+                            background-color: rgba(255, 255, 255, 0.1);
+                        };
+                    };
+                };
+
+                .col__content{
+                    border: 1px solid transparent;
+                    border-top: none;
+                };
+            };
+        };
+    };
+};

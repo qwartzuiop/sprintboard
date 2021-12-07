@@ -1,0 +1,438 @@
+@keyframes settingsMenu {
+    0% {
+        opacity: 0;
+        transform: translate(-100%, 0);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-100%, 0);
+    }
+};
+
+.card{
+    border-radius: 10px;
+    padding: 0 10px;
+    margin-bottom: 10px;
+
+    .card__header{
+        display: flex;
+        justify-content: space-between;
+
+        .header__label{
+            display: flex;
+            padding-top: 10px;
+
+            .label__tag{
+                width: 15px;
+                height: 15px;
+                border: 1px solid rgba(0, 0, 0, 0.15);
+                border-radius: 50%;
+                margin-right: 5px;
+            };
+        };
+
+        .drag-zone{
+            flex-grow: 1;
+            margin: 0 10px;
+
+            &:hover{
+                cursor: grab;
+            };
+            &:focus{
+                outline-width: 2px;
+                outline-color: rgba(58, 108, 217, 0.5);
+                outline-style: solid;
+            };
+            &:focus:not(:focus-visible){
+                outline: none;
+            };
+            &:focus-visible{
+                outline-width: 2px;
+                outline-color: rgba(58, 108, 217, 0.5);
+                outline-style: solid;
+            };
+        };
+
+        .header__date{
+            padding-top: 10px;
+        };
+    };
+
+    .card__content{
+        margin: 15px 0 5px 0;
+
+        .body-text{
+            white-space: pre-line;
+        };
+    };
+
+    .card__footer{
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 3px;
+
+        .footer__settings__wrapper{
+            display: flex;
+            position: relative;
+
+            .footer__settings--menu{
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                left: 25px;
+                top: 25px;
+                padding: 4px 5px;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+                border: 1px solid rgba(0, 0, 0, 0.15);
+                border-radius: 6px;
+                animation: .15s ease 0s 1 settingsMenu forwards;
+                transform-origin: right top;
+
+                .menu__item--delete, .menu__item--edit{
+                    display: flex;
+                    justify-content: space-between;
+                    width: 144px;
+                    align-items: center;
+                    padding: 3px 3px 3px 6px;
+                    border-radius: 4px;
+                    transition: background-color .2s ease;
+
+                    &:hover{
+                        cursor: pointer;
+                    };
+
+                    &:focus{
+                        outline-width: 2px;
+                        outline-color: rgba(58, 108, 217, 0.5);
+                        outline-style: solid;
+                    };
+                    &:focus:not(:focus-visible){
+                        outline: none;
+                    };
+                    &:focus-visible{
+                        outline-width: 2px;
+                        outline-color: rgba(58, 108, 217, 0.5);
+                        outline-style: solid;
+                    };
+
+                    .small-text{
+                        font-size: 14px;
+                        line-height: 20px;
+                        font-weight: 400;
+                    };
+                };
+                .menu__item--delete{
+                    .small-text{
+                        color: #EB5757;
+                    };
+                };
+
+                .menu__item--separator{
+                    height: 1px;
+                    margin: 4px 0;
+                };
+
+                .item--delete, .item--edit{
+                    background-repeat: no-repeat;
+                    background-position: right center;
+                };
+                .item--delete{
+                    background-image: url('../../img/delete-outline.svg');
+                    background-size: 16px;
+                    width: 20px;
+                    height: 20px;
+                };
+                .item--edit{
+                    background-size: 14px;
+                    width: 20px;
+                    height: 20px;
+                };
+            };
+
+            .footer__settings{
+                width: 25px;
+                height: 25px;
+                border-radius: 4px;
+                background-repeat: no-repeat;
+                background-position: center center;
+                transition: background-color .2s ease;
+
+                &:hover{
+                    cursor: pointer;
+                };
+
+                &:focus{
+                    outline-width: 2px;
+                    outline-color: rgba(58, 108, 217, 0.5);
+                    outline-style: solid;
+                };
+                &:focus:not(:focus-visible){
+                    outline: none;
+                };
+                &:focus-visible{
+                    outline-width: 2px;
+                    outline-color: rgba(58, 108, 217, 0.5);
+                    outline-style: solid;
+                };
+            };
+        };
+    };
+
+    &.card--editing{
+        .input{
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color .3s ease;
+
+            &:focus{
+                outline: none;
+            };
+
+            &.input--task-type{
+                padding: 3px 3px 3px 5px;
+            };
+
+            &.input--task-content{
+                line-height: 20px;
+                resize: none;
+                width: 100%;
+                height: 72px;
+                padding: 5px;
+            };
+        };
+
+        .card__header{
+            align-items: center;
+            .header__label{
+                width: 50%;
+                align-items: center;
+
+                .label__tag{
+                    flex-shrink: 0;
+                };
+            };
+
+            .drag-zone{
+                display: none;
+            };
+        };
+
+        .card__content{
+            margin: 15px 0;
+        };
+
+        .card__footer{
+            align-items: flex-end;
+            margin-bottom: 10px;
+
+            .footer__edit-buttons{
+                display: flex;
+
+                .body-text{
+                    min-width: 90px;
+                    text-align: center;
+                    border: 1px solid rgba(0,0,0,0.15);
+                    border-radius: 6px;
+                    box-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.15);
+                    line-height: 15px;
+                    padding: 4px 15px 5px 15px;
+                    transition: background-color .2s ease;
+
+                    &:not(:last-of-type){
+                        margin-right: 10px;
+                    };
+
+                    &.cancel{
+                        color: rgb(252, 43, 45);
+                    };
+
+                    &:hover{
+                        cursor: pointer;
+                    };
+
+                    &:focus{
+                        outline-width: 2px;
+                        outline-color: rgba(58, 108, 217, 0.5);
+                        outline-style: solid;
+                    };
+                    &:focus:not(:focus-visible){
+                        outline: none;
+                    };
+                    &:focus-visible{
+                        outline-width: 2px;
+                        outline-color: rgba(58, 108, 217, 0.5);
+                        outline-style: solid;
+                    };
+                };
+            };
+
+            .footer__settings__wrapper{
+                display: none;
+            }
+        };
+    };
+};
+
+body{
+    &.light{
+        .card{
+            background-color: rgba(255, 255, 255, 1);
+            border: 1px solid rgba(0, 0, 0, 0.15);
+
+            .card__footer{
+                .footer__settings__wrapper{
+                    .footer__settings--menu{
+                        background-color: rgba(255, 255, 255, 1);
+
+                        .menu__item--delete, .menu__item--edit{
+                            &:hover{
+                                background-color: rgba(0,0,0,0.03);
+                            };
+                            &:focus-visible{
+                                background-color: rgba(0,0,0,0.03);
+                            };
+                        };
+
+                        .menu__item--separator{
+                            background-color: rgba(0, 0, 0, 0.05);
+                        };
+
+                        .item--edit{
+                            background-image: url('../../img/square-and-pencil.svg');
+                        };
+                    };
+
+                    .footer__settings{
+                        background-image: url("../../img/more.svg");
+
+                        &:hover{
+                            background-color: rgba(196, 196, 196, 0.15);
+                        };
+                        &:focus-visible{
+                            background-color: rgba(196, 196, 196, 0.15);
+                        };
+                    };
+                };
+            };
+
+            &.card--editing{
+                .input{
+                    border: 1px solid rgba(0,0,0,0.1);
+                    color: rgba(61, 61, 61, 1);
+
+                    &::placeholder{
+                        color: rgba(61, 61, 61, 0.3)
+                    };
+
+                    &:hover, &:focus{
+                        border-color: rgba(0, 0, 0, 0.3);
+                    };
+                };
+
+                .card__footer{
+                    .footer__edit-buttons{
+                        .body-text{
+                            &:not(:last-of-type){
+                                margin-right: 10px;
+                            };
+
+                            &.cancel{
+                                color: rgb(252, 43, 45);
+                            };
+
+                            &:hover{
+                                background-color: rgba(0, 0, 0, 0.03);
+                            };
+                            &:focus-visible{
+                                background-color: rgba(0,0,0,0.03);
+                            };
+                        };
+                    };
+                };
+            };
+        };
+    };
+
+    &.dark{
+        .card{
+            background-color: rgba(44, 44, 46, 1);
+            border: 1px solid transparent;
+
+            .card__footer{
+                .footer__settings__wrapper{
+
+                    .footer__settings--menu{
+                        background-color: rgba(44, 44, 46, 1);
+
+                        .menu__item--delete, .menu__item--edit{
+
+                            &:hover{
+                                background-color: rgba(255,255,255,0.1);
+                            };
+
+                            &:focus-visible{
+                                background-color: rgba(255,255,255,0.1);
+                            };
+
+                            .small-text{
+                                font-weight: 300;
+                            };
+                        };
+
+                        .menu__item--separator{
+                            background-color: rgba(84, 84, 88, 0.65);
+                        };
+
+                        .item--edit{
+                            background-image: url('../../img/square-and-pencil--dark.svg');
+                        };
+                    };
+
+                    .footer__settings{
+                        background-image: url("../../img/more--dark.svg");
+
+                        &:hover{
+                            background-color: rgba(255, 255, 255, 0.1);
+                        };
+
+                        &:focus-visible{
+                            background-color: rgba(255, 255, 255, 0.1);
+                        };
+                    };
+                };
+            };
+
+            &.card--editing{
+                .input{
+                    background-color: transparent;
+                    border: 1px solid rgba(84, 84, 88, 0.35);
+                    color: #fff;
+
+                    &::placeholder{
+                        color: rgba(235, 235, 245, 0.3);
+                    };
+
+                    &:hover, &:focus{
+                        border-color: rgba(84, 84, 88, 0.65);
+                    };
+                };
+
+                .card__footer{
+                    .footer__edit-buttons{
+                        .body-text{
+                            background-color: rgba(255, 255, 255, 0.05);
+
+                            &:hover{
+                                background-color: rgba(255, 255, 255, 0.1);
+                            };
+
+                            &:focus-visible{
+                                background-color: rgba(255, 255, 255, 0.1);
+                            };
+                        };
+                    };
+                };
+            };
+        };
+    };
+};
