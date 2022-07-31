@@ -22,7 +22,6 @@ module.exports = {
         filename: '[name].[contenthash].js',
         chunkFilename: '[id].[chunkhash].js',
         clean: true,
-        publicPath: './',
     },
     optimization: {
         runtimeChunk: 'single',
