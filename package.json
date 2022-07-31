@@ -37,8 +37,8 @@
     "webpack-merge": "^5.8.0"
   },
   "browserslist": [
-    "last 2 versions",
-    "> 2%",
+    "last 1 versions",
+    "> 1%",
     "IE 10"
   ]
 }
