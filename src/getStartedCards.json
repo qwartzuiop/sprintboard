@@ -1,0 +1,43 @@
+{
+    "tasks": {
+        "0": {
+            "type": "Help",
+            "content": "A sprint is a short, time-boxed period when a team works to complete a set amount of work.\nSprintBoard is a tool that helps teams make sprint backlog items visible.",
+            "dateTime": "",
+            "timestamp": 0,
+            "tagColor": "rgb(252, 43, 45)"
+        },
+        "1": {
+            "type": "FAQ",
+            "content": "How to add a new task?\n1. To add a task to the list, click on the ' + ' button below.\n2. Set 'Task type' and 'Task content'.\n3. Select a tag color to visually divide similar tasks into groups.",
+            "dateTime": "",
+            "timestamp": 1,
+            "tagColor": "rgb(255, 214, 10)"
+        }
+    },
+    "inProgress": {
+        "0": {
+            "type": "FAQ",
+            "content": "How to move a task to an adjacent list?\nYou can move a task to adjacent status lists by dragging it from the top of the card.",
+            "dateTime": "",
+            "timestamp": 2,
+            "tagColor": "rgb(255, 214, 10)"
+        }
+    },
+    "done": {
+        "0": {
+            "type": "Hotkeys",
+            "content": "When creating a task, press 'Tab' to move focus to the completion button and press 'Space' or 'Enter'.\nSimilarly, you can quickly add the next task.",
+            "dateTime": "",
+            "timestamp": 3,
+            "tagColor": "rgb(48, 211, 59)"
+        },
+        "1": {
+            "type": "Accessibility",
+            "content": "Use 'Tab' to set focus on the card drag'n'drop area, press 'Space', use the arrows to move the task to the desired status list and press 'Space' again to confirm the transfer.",
+            "dateTime": "",
+            "timestamp": 4,
+            "tagColor": "rgb(90, 200, 245)"
+        }
+    }
+}
