@@ -1,17 +1,10 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common.js');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-module.exports = {
-    entry: {
-        main: './src/sprintboard.js',
-    },
-    output: {
-        path: path.join(__dirname, 'dist'),
-        filename: '[name].[contenthash].js',
-        chunkFilename: '[id].[chunkhash].js',
-        clean: true,
-    },
+module.exports = merge(common, {
+    mode: 'production',
     module: {
         rules: [
             {
@@ -19,6 +12,9 @@ module.exports = {
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-react']
+                    }
                 },
             },
             {
@@ -30,7 +26,10 @@ module.exports = {
                     {
                         loader: 'css-loader',
                         options: {
-                            importLoaders: 1,
+                            sourceMap: false,
+                            modules: {
+                                localIdentName: '[hash:base64:4]',
+                            },
                         },
                     },
                     {
@@ -51,28 +50,4 @@ module.exports = {
             },
         ],
     },
-    plugins: [
-        new MiniCssExtractPlugin({
-            filename: '[name].[contenthash].css',
-        }),
-        new HtmlWebpackPlugin({
-            template: path.join(__dirname, 'src/index.html'),
-            inject: true,
-            chunks: ['main'],
-            filename: 'index.html',
-        }),
-    ],
-    optimization: {
-        moduleIds: 'deterministic',
-        runtimeChunk: 'single',
-        splitChunks: {
-            cacheGroups: {
-                vendor: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendors',
-                    chunks: 'all',
-                },
-            },
-        },
-    },
-};
+});
