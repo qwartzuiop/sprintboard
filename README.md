@@ -1,4 +1,4 @@
-# Shadowwws
+# SprintBoard
 
 ## About
 Tool to create tasks and track your progress on interactive board showing a visual status of your current project.
