@@ -1,93 +1,104 @@
 import React, { useState, useRef, useEffect } from 'react';
+import store from '../../store';
+import { useDispatch } from 'react-redux';
+import { updateColumn } from '../../reducers/boardReducer';
+
 import { Draggable } from 'react-beautiful-dnd';
-import './card.scss';
 
-export function Card(props){
+import styles from './card.scss';
+
+export function Card({ data, index, columnName }) {
+    const [isMenuVisible, setMenuVisibility] = useState(false);
+    const dispatch = useDispatch();
     const node = useRef(null);
-    const [settings, settingsHidden] = useState(true);
-    const [editable, setEditable] = useState(false);
-    const [initialType, updateInitialType] = useState(props.taskType);
-    const [initialContent, updateInitialContent] = useState(props.taskContent);
-
-    function handleClick(e) {
-        if (node.current.contains(e.target)) {
-            return
-        }
-        settingsHidden(true);
-    };
 
     useEffect(() => {
-        document.addEventListener("mousedown", handleClick);
+        document.addEventListener('mousedown', handleClickOutside);
         return () => {
-          document.removeEventListener("mousedown", handleClick);
+            document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [settings, editable]);
+    }, [isMenuVisible]);
 
-    function editCard() {
-        settingsHidden(true);
-        setEditable(true);
+    function handleClickOutside(e) {
+        if (node.current.contains(e.target)) return;
+        setMenuVisibility(false);
     };
 
-    function saveEdit(){
-        setEditable(false);
-        let col = [...props.columnState];
-        if (col[props.index].type === initialType && col[props.index].content === initialContent) return;
-        col[props.index].type = initialType;
-        col[props.index].content = initialContent;
-        localStorage.setItem(props.columnName, JSON.stringify(col));
+    function removeTask() {
+        setMenuVisibility(false);
+
+        let columnContent = [...store.getState().board[columnName]];
+        columnContent.splice(index, 1);
+
+        dispatch(updateColumn({ columnId: columnName, columnContent: columnContent }));
+        localStorage.setItem(columnName, JSON.stringify(columnContent));
     };
 
-    function cancelEdit(props) {
-        setEditable(false);
-        let col = [...props.columnState];
-        if (col[props.index].type === initialType && col[props.index].content === initialContent) return;
-        updateInitialType(props.taskType);
-        updateInitialContent(props.taskContent);
-    };
-
-    function removeTask(props) {
-        settingsHidden(true);
-        let col = [...props.columnState];
-        col.splice(props.index, 1);
-        props.updateColumnState(col);
-        localStorage.setItem(props.columnName, JSON.stringify(col));
-    };
-
-    return(
-        <Draggable draggableId={props.timestamp.toString()} index={props.index}>
+    return (
+        <Draggable
+            draggableId={data.timestamp?.toString() || index.toString() + Date.now()}
+            index={index}
+        >
             {(provided, snapshot) => (
-                <div ref={provided.innerRef} {...provided.draggableProps} style={{boxShadow: snapshot.isDragging ? '0 0 10px rgba(0,0,0,0.1)' : null, ...provided.draggableProps.style}} className={editable ? "card card--editing" : "card"}>
-                    <div className="card__header">
-                        <div className="header__label">
-                            <div className="label__tag" style={{backgroundColor: props.tagColor}}></div>
-                            {!editable ? <p className="label-text">{initialType}</p> : <input className="input input--task-type" maxLength={22} placeholder={'Task type'} value={initialType} onChange={(e) => updateInitialType(e.target.value)} autoFocus />}
+                <article
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    style={{ boxShadow: snapshot.isDragging ? '0 0 16px 4px rgba(0,0,0,0.15)' : null, ...provided.draggableProps.style }}
+                    className={styles.card}
+                >
+                    <header className={styles.header}>
+                        <div className={styles.labelWrapper}>
+                            <div
+                                className={styles.tag}
+                                style={{ backgroundColor: data.tagColor || 'hsl(359deg, 97%, 57%)' }}
+                            >
+                            </div>
+                            <p className={styles.title}>
+                                {data.type || 'Help'}
+                            </p>
                         </div>
-                        <div className="drag-zone" {...provided.dragHandleProps}></div>
-                        <div className="header__date">
-                            <p className="small-text">{props.taskCreatedAt}</p>
+                        <div
+                            className={styles.dragZone}
+                            {...provided.dragHandleProps}>
                         </div>
-                    </div>
-                    <div className="card__content">
-                        {!editable ?  <p className="body-text">{initialContent}</p> : <textarea className="input input--task-content" placeholder={'Task content...'} value={initialContent} onChange={(e) => updateInitialContent(e.target.value)} ></textarea>}
-                    </div>
-                    <div className="card__footer">
-                        {editable && <div className="footer__edit-buttons"><p className="body-text" tabIndex={0} onClick={() => saveEdit(props)} onKeyPress={(e) => e.key == 'Enter' || e.key == ' ' ? saveEdit(props) : null}>Save</p><p className="body-text cancel" tabIndex={0} onClick={() => cancelEdit(props)} onKeyPress={(e) => e.key == 'Enter' || e.key == ' ' ? cancelEdit(props) : null}>Cancel</p></div>}
-                        <div ref={node} className="footer__settings__wrapper">
-                            <div className="footer__settings" tabIndex={0} onClick={() => settingsHidden(!settings)} onKeyPress={(e) => e.key == 'Enter' || e.key == ' ' ? settingsHidden(!settings) : null} style={!settings ? {backgroundColor: "rgba(196, 196, 196, 0.15)"} : null}></div>
-                            {!settings && <div className="footer__settings--menu">
-                                <div className="menu__item--edit" tabIndex={0} onClick={ () => editCard()} onKeyPress={(e) => e.key == 'Enter' || e.key == ' ' ? editCard() : null}>
-                                    <p className="small-text">Edit</p>
-                                    <div className="item--edit"></div>
-                                </div>
-                                <div className="menu__item--separator"></div>
-                                <div className="menu__item--delete" tabIndex={0} onClick={ () => removeTask(props)} onKeyPress={(e) => e.key == 'Enter' || e.key == ' ' ? removeTask(props) : null}>
-                                    <p className="small-text">Delete</p>
-                                    <div className="item--delete"></div>
-                                </div>
-                            </div>}
-                        </div>
-                    </div>
-                </div>
+                        <span className={styles.date}>
+                            {data.dateTime}
+                        </span>
+                    </header>
+
+                    <main className={styles.main}>
+                        <p className={styles.cardText}>
+                            {data.content || 'Ooops! Looks like something gone wrong...\nTry reset the board to initial state using \'Edit\' menu.'}
+                        </p>
+                    </main>
+
+                    <footer
+                        className={styles.footer}
+                        ref={node}
+                    >
+                        <button
+                            className={`${styles.menuButton} ${isMenuVisible ? styles.active : ''}`}
+                            onClick={() => setMenuVisibility(!isMenuVisible)}
+                        >
+                            <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                <rect x='17' y='10' width='4' height='4' rx='1' />
+                                <rect x='10' y='10' width='4' height='4' rx='1' />
+                                <rect x='3' y='10' width='4' height='4' rx='1' />
+                            </svg>
+                        </button>
+
+                        {isMenuVisible &&
+                            <div className={styles.menuList}>
+                                <button
+                                    className={styles.listItem}
+                                    onClick={() => removeTask()}
+                                >
+                                    Remove
+                                </button>
+                            </div>
+                        }
+                    </footer>
+                </article>
             )}
         </Draggable>
     )
