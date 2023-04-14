@@ -6,7 +6,7 @@ Tool to create tasks and track your progress on interactive board showing a visu
 <details>
     <summary>Screenshot</summary>
 
-![Image Preview](https://pavelgolyshev.dev/img/sprintboard.webp)
+![Image Preview](https://pavelgolyshev.dev/images/sprintboard.png)
 
 </details>
 
